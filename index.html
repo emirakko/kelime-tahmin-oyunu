@@ -280,11 +280,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
 <script>
 // ==================== SUPABASE SETUP ====================
-// ⚠️ BURAYA KENDİ SUPABASE BİLGİLERİNİ YAZ ⚠️
 const SUPABASE_URL = 'https://dgvjwnpqinwyotvnpcgc.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRndmp3bnBxaW53eW90dm5wY2djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczMDM5MzMsImV4cCI6MjA5Mjg3OTkzM30.mTF2YuqjvYI-tRP2tW5UD3bagvbcyxxv45SZ9qZ6hZI';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ==================== GLOBAL STATE ====================
 const $ = id => document.getElementById(id);
@@ -310,7 +309,7 @@ let ansActive = false;
 
 // ==================== AUTH ====================
 async function checkAuth() {
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await sb.auth.getSession();
   
   if (session) {
     user = session.user;
@@ -322,7 +321,7 @@ async function checkAuth() {
 }
 
 async function loadUserProfile() {
-  const { data } = await supabase
+  const { data } = await sb
     .from('profiles')
     .select('username, display_name')
     .eq('id', user.id)
@@ -345,7 +344,7 @@ async function signIn() {
 
   showAuthFeedback('E-posta gönderiliyor...', 'info');
   
-  const { error } = await supabase.auth.signInWithOtp({
+  const { error } = await sb.auth.signInWithOtp({
     email,
     options: {
       emailRedirectTo: window.location.href
@@ -360,7 +359,7 @@ async function signIn() {
 }
 
 async function signOut() {
-  await supabase.auth.signOut();
+  await sb.auth.signOut();
   location.reload();
 }
 
@@ -406,7 +405,7 @@ function updateDateDisplay() {
 async function checkIfPlayedToday() {
   const today = new Date().toISOString().split('T')[0];
   
-  const { data } = await supabase
+  const { data } = await sb
     .from('game_sessions')
     .select('score')
     .eq('user_id', user.id)
@@ -424,7 +423,7 @@ async function checkIfPlayedToday() {
 
 // ==================== LOAD PUZZLE ====================
 async function loadTodaysPuzzle() {
-  const { data, error } = await supabase.rpc('get_or_create_daily_puzzle');
+  const { data, error } = await sb.rpc('get_or_create_daily_puzzle');
   
   if (error) {
     alert('Hata: ' + error.message);
@@ -508,7 +507,7 @@ async function takeLetter() {
   const pickIdx = hidden[Math.floor(Math.random() * hidden.length)];
   
   // Sunucudan o pozisyondaki harfi al
-  const { data, error } = await supabase
+  const { data, error } = await sb
     .from('questions')
     .select('answer')
     .eq('id', q.id)
@@ -570,7 +569,7 @@ async function submitAnswer() {
   const hiddenCount = q.letter_count - revealed.length;
 
   // Sunucuda doğrula
-  const { data, error } = await supabase.rpc('verify_answer', {
+  const { data, error } = await sb.rpc('verify_answer', {
     p_question_id: q.id,
     p_user_answer: input
   });
@@ -583,7 +582,7 @@ async function submitAnswer() {
   questionDone = true;
 
   // Tüm harfleri göster
-  const { data: fullQ } = await supabase
+  const { data: fullQ } = await sb
     .from('questions')
     .select('answer')
     .eq('id', q.id)
@@ -623,7 +622,7 @@ async function passQuestion() {
   const q = puzzleData[currentQuestionIndex];
   
   // Cevabı göster
-  const { data } = await supabase
+  const { data } = await sb
     .from('questions')
     .select('answer')
     .eq('id', q.id)
@@ -660,7 +659,7 @@ async function finishGame() {
   // Skoru kaydet
   const today = new Date().toISOString().split('T')[0];
   
-  const { error } = await supabase
+  const { error } = await sb
     .from('game_sessions')
     .insert({
       user_id: user.id,
@@ -702,7 +701,7 @@ async function finishGame() {
 async function loadLeaderboard() {
   const today = new Date().toISOString().split('T')[0];
   
-  const { data, error } = await supabase.rpc('get_daily_leaderboard', {
+  const { data, error } = await sb.rpc('get_daily_leaderboard', {
     target_date: today
   });
 
@@ -806,7 +805,7 @@ async function answerTimeout() {
   questionDone = true;
 
   // Cevabı göster
-  const { data } = await supabase
+  const { data } = await sb
     .from('questions')
     .select('answer')
     .eq('id', q.id)
@@ -851,7 +850,7 @@ $('ai').addEventListener('input', e => {
 checkAuth();
 
 // Auth state değişikliklerini dinle
-supabase.auth.onAuthStateChange((event, session) => {
+sb.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_IN') {
     user = session.user;
     loadUserProfile().then(() => showStartScreen());
