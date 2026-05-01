@@ -570,18 +570,18 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 
 /* ============================================================ 
-   FLOATING TIMER (independent, always visible during answer time)
+   FLOATING TIMER (altta sabit - mobilde her zaman görünür)
    ============================================================ */
 .floating-timer{
   position:fixed;
-  top:20px;left:50%;
-  transform:translateX(-50%) translateY(-100px);
+  bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(150px);
   background:linear-gradient(135deg,#0a1628,#1a365d);
   color:#fff;
-  padding:14px 22px;
+  padding:16px 28px;
   border-radius:50px;
   display:flex;align-items:center;gap:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 0 4px rgba(255,255,255,.1);
+  box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 0 4px rgba(255,255,255,.1);
   z-index:1000;
   opacity:0;
   transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;
@@ -599,15 +599,17 @@ button:disabled{opacity:.5;cursor:not-allowed}
   font-weight:600;
 }
 .floating-timer-num{
-  font-size:32px;
+  font-size:36px;
   font-weight:700;
   font-variant-numeric:tabular-nums;
   letter-spacing:-1px;
   color:#fbbf24;
+  line-height:1;
 }
 .floating-timer.warn{
   background:linear-gradient(135deg,#7f1d1d,#ef4444);
   animation:floatingTimerPulse .5s ease infinite;
+  box-shadow:0 10px 30px rgba(239,68,68,.6),0 0 0 4px rgba(255,255,255,.1);
 }
 .floating-timer.warn .floating-timer-num{color:#fff}
 @keyframes floatingTimerPulse{
@@ -616,10 +618,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
 }
 @media(max-width:480px){
   .floating-timer{
-    top:12px;
-    padding:10px 18px;
+    bottom:16px;
+    padding:12px 22px;
   }
-  .floating-timer-num{font-size:26px}
+  .floating-timer-num{font-size:30px}
   .floating-timer-label{font-size:10px}
 }
 
