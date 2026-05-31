@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nasıl Oynanır — HarfVer Kuralları, Puanlama ve İpuçları</title>
+<meta name="description" content="HarfVer nasıl oynanır? Oyun kuralları, puanlama sistemi, süre yönetimi ve yüksek skor için stratejik ipuçları. Türkçe kelime tahmin oyununda ustalaşın.">
+<link rel="canonical" href="https://harfver.com/how-to-play.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-900:#0a1628;--navy-800:#0f2444;--navy-700:#1a365d;--navy-600:#2c4f7c;
+  --navy-500:#3b6294;--navy-200:#bdd4ec;--navy-100:#e0ecf8;--navy-50:#f0f6fc;
+  --accent:#fbbf24;--accent-dark:#f59e0b;--success:#10b981;--danger:#ef4444;
+  --bg:#f0f6fc;--card:#ffffff;--text:#0a1628;--text-muted:#5b86c4;--border:#bdd4ec;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+.site-header{background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-700) 100%);padding:18px 0;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(10,22,40,.15)}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-logo{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--navy-700),var(--navy-900));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--accent)}
+.brand-name{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.brand-name .accent{color:var(--accent)}
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}
+.nav-links a{color:var(--navy-100);text-decoration:none;font-size:15px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+main{padding:48px 0 64px}
+.page-title{font-size:34px;font-weight:700;color:var(--navy-900);letter-spacing:-1px;margin-bottom:8px}
+.page-subtitle{font-size:17px;color:var(--text-muted);margin-bottom:36px}
+.content-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:36px;box-shadow:0 4px 20px rgba(10,22,40,.06);margin-bottom:24px}
+.content-card h2{font-size:22px;font-weight:700;color:var(--navy-900);margin:28px 0 12px;letter-spacing:-.5px}
+.content-card h2:first-child{margin-top:0}
+.content-card h3{font-size:17px;font-weight:600;color:var(--navy-700);margin:20px 0 8px}
+.content-card p{margin-bottom:14px;color:var(--navy-800);font-size:16px}
+.content-card ul,.content-card ol{margin:0 0 16px 22px}
+.content-card li{margin-bottom:10px;color:var(--navy-800)}
+.content-card a{color:var(--accent-dark);font-weight:600}
+.step-list{list-style:none;margin-left:0!important;counter-reset:step}
+.step-list li{position:relative;padding-left:48px;margin-bottom:18px;counter-increment:step}
+.step-list li::before{
+  content:counter(step);position:absolute;left:0;top:0;
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  color:var(--navy-900);font-weight:700;
+  display:flex;align-items:center;justify-content:center;font-size:15px;
+}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.score-box{border-radius:14px;padding:20px;text-align:center}
+.score-box.win{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3)}
+.score-box.lose{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25)}
+.score-box .ico{font-size:30px;margin-bottom:6px}
+.score-box .lbl{font-weight:700;font-size:16px;color:var(--navy-900);margin-bottom:4px}
+.score-box .desc{font-size:14px;color:var(--text-muted)}
+.highlight-box{background:var(--navy-50);border-left:4px solid var(--accent);padding:18px 22px;border-radius:0 12px 12px 0;margin:20px 0}
+.tip-box{background:rgba(16,185,129,.08);border-left:4px solid var(--success);padding:16px 20px;border-radius:0 12px 12px 0;margin:16px 0}
+.tip-box strong{color:#0a7355}
+.cta{display:inline-block;margin-top:8px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:var(--navy-900);font-weight:700;font-size:16px;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(251,191,36,.35);transition:transform .2s}
+.cta:hover{transform:translateY(-2px)}
+.site-footer{background:var(--navy-900);color:var(--navy-200);padding:36px 0;margin-top:40px}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.footer-links a{color:var(--navy-200);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{text-align:center;font-size:13px;color:var(--navy-500)}
+@media(max-width:600px){.page-title{font-size:28px}.content-card{padding:24px}.brand-name{font-size:20px}.nav-links{gap:12px}.nav-links a{font-size:14px}.score-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <div class="brand-logo">H</div>
+      <div class="brand-name">Harf<span class="accent">Ver</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Oyna</a>
+      <a href="how-to-play.html">Nasıl Oynanır</a>
+      <a href="about.html">Hakkında</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h1 class="page-title">Nasıl Oynanır?</h1>
+    <p class="page-subtitle">Kurallar, puanlama ve yüksek skor için ipuçları</p>
+
+    <div class="content-card">
+      <h2>Oyunun Amacı</h2>
+      <p>HarfVer'de amacınız, size verilen tanımdan yola çıkarak gizli Türkçe kelimeyi bulmaktır. İşin püf noktası şu: kelimeyi ne kadar az harf açarak bilirseniz, o kadar çok puan kazanırsınız. Yani sadece doğru cevabı bulmak değil, onu en az ipucuyla bulmak önemlidir.</p>
+
+      <h2>Adım Adım Oynanış</h2>
+      <ol class="step-list">
+        <li>Karşınıza bir kelimenin tanımı ve harf sayısı kadar boş kutucuk gelir. Örneğin 6 harfli bir kelime için 6 altıgen kutu görürsünüz.</li>
+        <li>Tanımı okuyun ve aklınıza bir kelime gelirse "Yanıtla" butonuna basın. Bu, 15 saniyelik bir cevap süresi başlatır.</li>
+        <li>Emin değilseniz harf açarak ipucu alabilirsiniz. Her açılan harf, o sorudan kazanabileceğiniz puanı azaltır.</li>
+        <li>Cevabınızı yazıp gönderin. Doğruysa puan kazanır, yanlışsa puan kaybedersiniz.</li>
+        <li>14 sorunun tamamını 4 dakika içinde çözmeye çalışın. Süreniz bitmeden ne kadar çok soru çözerseniz o kadar iyi.</li>
+      </ol>
+
+      <div class="highlight-box">
+        <p style="margin:0"><strong>Güzel haber:</strong> Bir soruyu cevapladıktan sonra, bir sonraki soru ekrana gelene kadar genel süreniz durur. Yani düşünme ve okuma zamanınız sizden çalınmaz; süre yalnızca aktif olarak oynarken işler.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Puanlama Sistemi</h2>
+      <p>Puanlama, açılmamış harf sayısına dayanır. Her açılmamış harf 100 puan değerindedir.</p>
+
+      <div class="score-grid">
+        <div class="score-box win">
+          <div class="ico">✅</div>
+          <div class="lbl">Doğru Cevap</div>
+          <div class="desc">Açılmamış harf × 100 puan <strong>kazanırsınız</strong></div>
+        </div>
+        <div class="score-box lose">
+          <div class="ico">❌</div>
+          <div class="lbl">Yanlış Cevap</div>
+          <div class="desc">Açılmamış harf × 100 puan <strong>kaybedersiniz</strong></div>
+        </div>
+      </div>
+
+      <h3>Örnek Hesaplama</h3>
+      <p>8 harfli bir kelimede 2 harf açtınız ve doğru bildiniz: 6 açılmamış harf × 100 = <strong>600 puan</strong> kazanırsınız. Hiç harf açmadan bilseydiniz 800 puan alırdınız. Gördüğünüz gibi her harf size 100 puana mal oluyor.</p>
+
+      <div class="tip-box">
+        <strong>Dikkat:</strong> Yanlış cevap puan kaybettirir. Hiçbir fikriniz yoksa, rastgele tahmin etmek yerine soruyu pas geçmek bazen daha akıllıca olabilir — çünkü yanlış tahmin açılmamış harf sayısı kadar puanınızı götürür.
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Süre Yönetimi</h2>
+      <p>Toplam süreniz 4 dakika (240 saniye) ve çözmeniz gereken 14 soru var. Bu, soru başına ortalama 17 saniye demek. Ama her soruya eşit zaman ayırmak zorunda değilsiniz.</p>
+      <ul>
+        <li><strong>Kolay soruları hızlı geçin:</strong> Oyun kolaydan zora doğru ilerler. İlk soruları çabuk çözüp zor sorulara zaman biriktirin.</li>
+        <li><strong>15 saniye kuralı:</strong> "Yanıtla" butonuna bastığınızda 15 saniyeniz başlar. Bu süre dolarsa cevap yanlış sayılır ve puan kaybedersiniz, bu yüzden butona basmadan önce cevabınızdan emin olun.</li>
+        <li><strong>Takılırsanız pas geçin:</strong> Bir soruda çok oyalanmak, kalan sorulara ayıracağınız zamanı yer.</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Yüksek Skor İçin Stratejiler</h2>
+
+      <h3>1. Tanımı Dikkatle Okuyun</h3>
+      <p>Türkçe tanımlar genellikle kelimenin türünü (isim, fiil, sıfat) ve kullanım alanını ele verir. "Mecazi" veya "halk ağzında" gibi ifadeler, kelimenin günlük dilden mi yoksa edebi/eski bir kullanımdan mı geldiğine dair ipucu verir.</p>
+
+      <h3>2. Harf Sayısını Kullanın</h3>
+      <p>Kutu sayısı, olası kelimeleri daraltmanın en güçlü aracıdır. Tanıma uyan birkaç kelime aklınıza geldiyse, harf sayısı çoğunlukla doğru olanı seçmenizi sağlar.</p>
+
+      <h3>3. İlk ve Son Harfler Altın Değerinde</h3>
+      <p>Eğer harf açacaksanız, açtığınız harfler kelimenin başını ve sonunu görmenizi sağlıyorsa kelimeyi tahmin etmek çok daha kolaylaşır. Türkçede ekler ve kök yapısı tanıdık geldiğinde bütün kelime hızla ortaya çıkar.</p>
+
+      <h3>4. Risk ve Ödül Dengesi</h3>
+      <p>Yüksek puanlı oyun, az harf açıp doğru bilmekle gelir. Ama emin değilken hiç harf açmadan tahmin etmek risklidir — yanlışsa maksimum puanı kaybedersiniz. Deneyim kazandıkça bu dengeyi sezgisel olarak kuracaksınız.</p>
+
+      <div class="tip-box">
+        <strong>Pro ipucu:</strong> Sıralamada öne geçmek için sadece puan değil, kalan süreniz de önemlidir. Eşit puanlarda, daha fazla süre kalanı üst sırada yer alır. Yani hızlı ve doğru oynamak iki kat ödüllendirilir.
+      </div>
+
+      <p style="text-align:center;margin-top:28px">
+        <a href="index.html" class="cta">Öğrendiklerini Dene</a>
+      </p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <nav class="footer-links">
+      <a href="index.html">Oyna</a>
+      <a href="how-to-play.html">Nasıl Oynanır</a>
+      <a href="about.html">Hakkında</a>
+      <a href="contact.html">İletişim</a>
+      <a href="privacy.html">Gizlilik Politikası</a>
+      <a href="terms.html">Kullanım Şartları</a>
+    </nav>
+    <p class="footer-copy">© 2026 HarfVer · Türkçe kelime tahmin oyunu</p>
+  </div>
+</footer>
+
+</body>
+</html>
