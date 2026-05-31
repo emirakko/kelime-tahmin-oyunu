@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hakkında — HarfVer</title>
+<meta name="description" content="HarfVer, her gün yeni bir Türkçe kelime tahmin bulmacası sunan ücretsiz bir kelime oyunudur. Oyunun hikayesi ve amacı hakkında bilgi edinin.">
+<link rel="canonical" href="https://harfver.com/about.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-900:#0a1628;--navy-800:#0f2444;--navy-700:#1a365d;--navy-600:#2c4f7c;
+  --navy-500:#3b6294;--navy-200:#bdd4ec;--navy-100:#e0ecf8;--navy-50:#f0f6fc;
+  --accent:#fbbf24;--accent-dark:#f59e0b;
+  --bg:#f0f6fc;--card:#ffffff;--text:#0a1628;--text-muted:#5b86c4;--border:#bdd4ec;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(135deg,var(--navy-900) 0%,var(--navy-700) 100%);
+  padding:18px 0;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 12px rgba(10,22,40,.15);
+}
+.container{max-width:760px;margin:0 auto;padding:0 20px}
+.header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-logo{
+  width:42px;height:42px;border-radius:10px;
+  background:linear-gradient(135deg,var(--navy-700),var(--navy-900));
+  border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:700;color:var(--accent);
+}
+.brand-name{font-size:24px;font-weight:700;color:#fff;letter-spacing:-.5px}
+.brand-name .accent{color:var(--accent)}
+.nav-links{display:flex;gap:18px;flex-wrap:wrap}
+.nav-links a{color:var(--navy-100);text-decoration:none;font-size:15px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+
+/* MAIN */
+main{padding:48px 0 64px}
+.page-title{font-size:34px;font-weight:700;color:var(--navy-900);letter-spacing:-1px;margin-bottom:8px}
+.page-subtitle{font-size:17px;color:var(--text-muted);margin-bottom:36px}
+.content-card{
+  background:var(--card);border:1px solid var(--border);border-radius:18px;
+  padding:36px;box-shadow:0 4px 20px rgba(10,22,40,.06);
+}
+.content-card h2{font-size:22px;font-weight:700;color:var(--navy-900);margin:28px 0 12px;letter-spacing:-.5px}
+.content-card h2:first-child{margin-top:0}
+.content-card p{margin-bottom:16px;color:var(--navy-800);font-size:16px}
+.content-card ul{margin:0 0 16px 22px}
+.content-card li{margin-bottom:8px;color:var(--navy-800)}
+.content-card a{color:var(--accent-dark);font-weight:600}
+.highlight-box{
+  background:var(--navy-50);border-left:4px solid var(--accent);
+  padding:18px 22px;border-radius:0 12px 12px 0;margin:20px 0;
+}
+.cta{
+  display:inline-block;margin-top:24px;
+  background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+  color:var(--navy-900);font-weight:700;font-size:16px;
+  padding:14px 32px;border-radius:12px;text-decoration:none;
+  box-shadow:0 4px 14px rgba(251,191,36,.35);transition:transform .2s;
+}
+.cta:hover{transform:translateY(-2px)}
+
+/* FOOTER */
+.site-footer{
+  background:var(--navy-900);color:var(--navy-200);
+  padding:36px 0;margin-top:40px;
+}
+.footer-links{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.footer-links a{color:var(--navy-200);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{text-align:center;font-size:13px;color:var(--navy-500)}
+
+@media(max-width:600px){
+  .page-title{font-size:28px}
+  .content-card{padding:24px}
+  .brand-name{font-size:20px}
+  .nav-links{gap:12px}
+  .nav-links a{font-size:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="brand">
+      <div class="brand-logo">H</div>
+      <div class="brand-name">Harf<span class="accent">Ver</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Oyna</a>
+      <a href="how-to-play.html">Nasıl Oynanır</a>
+      <a href="about.html">Hakkında</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <h1 class="page-title">HarfVer Hakkında</h1>
+    <p class="page-subtitle">Her gün yeni bir Türkçe kelime macerası</p>
+
+    <div class="content-card">
+      <h2>HarfVer Nedir?</h2>
+      <p>HarfVer, her gün yenilenen Türkçe kelime tahmin bulmacalarıyla zihninizi zinde tutan ücretsiz bir kelime oyunudur. Amaç basit ama keyifli: verilen tanımdan yola çıkarak doğru kelimeyi, mümkün olduğunca az harf açarak bulmak.</p>
+      <p>Her gün 14 yeni soru sizi bekliyor. Sorular kolaydan zora doğru ilerliyor; ilk sorularla ısının, ilerledikçe kelime dağarcığınızın sınırlarını zorlayın.</p>
+
+      <h2>Nasıl Doğdu?</h2>
+      <p>HarfVer, Türkçenin zenginliğini eğlenceli bir oyuna dönüştürme fikrinden doğdu. Wordle gibi günlük bulmaca oyunlarının sadeliğinden ilham aldık, ama tamamen Türkçeye ve Türk Dil Kurumu sözlüğünün derinliğine odaklandık.</p>
+      <p>Oyunun arkasında yirmi binin üzerinde Türkçe kelimeden oluşan özenle hazırlanmış bir veritabanı var. Her kelime tanımı, türü ve kökeniyle birlikte saklanıyor; böylece oynarken hem eğleniyor hem de dilimiz hakkında yeni şeyler öğreniyorsunuz.</p>
+
+      <div class="highlight-box">
+        <p style="margin:0"><strong>Bilmek güzel:</strong> HarfVer'deki kelimeler, "abajur"dan "eşelmobil"e kadar günlük dilden nadir kelimelere uzanan geniş bir yelpazeyi kapsıyor. Her oyun, kelime hazinenize yeni bir şey katma fırsatı.</p>
+      </div>
+
+      <h2>Neden HarfVer?</h2>
+      <ul>
+        <li><strong>Tamamen ücretsiz</strong> — kayıt zorunluluğu yok, hemen oynayabilirsiniz.</li>
+        <li><strong>Her gün yeni</strong> — her gün taze 14 soruluk bir bulmaca.</li>
+        <li><strong>Türkçeye özel</strong> — TDK sözlüğüne dayalı zengin kelime havuzu.</li>
+        <li><strong>Sıralama tablosu</strong> — puanınızı diğer oyuncularla karşılaştırın.</li>
+        <li><strong>Paylaşılabilir sonuçlar</strong> — günlük başarınızı arkadaşlarınızla paylaşın.</li>
+      </ul>
+
+      <h2>Bizimle İletişime Geçin</h2>
+      <p>Geri bildirimleriniz, önerileriniz veya sorularınız için <a href="contact.html">iletişim sayfamızı</a> ziyaret edebilirsiniz. HarfVer'i sürekli geliştiriyoruz ve fikirlerinizi duymaktan mutluluk duyarız.</p>
+
+      <a href="index.html" class="cta">Hemen Oynamaya Başla</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <nav class="footer-links">
+      <a href="index.html">Oyna</a>
+      <a href="how-to-play.html">Nasıl Oynanır</a>
+      <a href="about.html">Hakkında</a>
+      <a href="contact.html">İletişim</a>
+      <a href="privacy.html">Gizlilik Politikası</a>
+      <a href="terms.html">Kullanım Şartları</a>
+    </nav>
+    <p class="footer-copy">© 2026 HarfVer · Türkçe kelime tahmin oyunu</p>
+  </div>
+</footer>
+
+</body>
+</html>
