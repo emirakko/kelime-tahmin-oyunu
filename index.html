@@ -875,6 +875,20 @@ button:disabled{opacity:.5;cursor:not-allowed}
   .wdisplay{gap:3px}
   .lbox{font-size:clamp(13px, 4.6vw, 20px);letter-spacing:-1.5px}
 }
+/* Sözlük keşif linki (oyun bitiş ekranı) */
+.dict-link{
+  display:block;margin-top:14px;
+  color:var(--navy-200);text-decoration:none;
+  font-size:14px;font-weight:500;
+  padding:10px;border-radius:10px;
+  border:1px solid rgba(189,212,236,.2);
+  transition:all .2s;
+}
+.dict-link:hover{
+  color:var(--accent);
+  border-color:rgba(251,191,36,.4);
+  background:rgba(251,191,36,.06);
+}
 /* SITE FOOTER (AdSense legal links) */
 .site-footer{
   width:100%;max-width:780px;
@@ -1054,6 +1068,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
     </div>
 
     <button class="bp" onclick="goHome()" style="margin-top:20px">Ana Sayfaya Dön</button>
+
+    <a href="kelime/" class="dict-link">📖 Türkçe Sözlük'te kelime anlamlarını keşfet →</a>
   </div>
 
 </div>
@@ -1062,6 +1078,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 <footer class="site-footer">
   <nav class="footer-links">
     <a href="how-to-play.html">Nasıl Oynanır</a>
+    <a href="kelime/">Sözlük</a>
     <a href="about.html">Hakkında</a>
     <a href="contact.html">İletişim</a>
     <a href="privacy.html">Gizlilik Politikası</a>
