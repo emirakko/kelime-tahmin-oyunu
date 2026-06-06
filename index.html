@@ -935,6 +935,12 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <button class="bp" style="width:100%;padding:14px" onclick="signInWithNickname()">Oyuna Başla</button>
       <p class="auth-note">📅 Günde 1 kez oynama hakkın var</p>
       <div id="authFeedback" class="fb" style="margin-top:12px"></div>
+
+      <!-- Bugünün sıralaması (merak uyandırmak için) -->
+      <div class="lb" style="margin-top:24px">
+        <h3>📊 Bugünün Sıralaması</h3>
+        <div class="lb-list" id="leaderboardAuth" style="max-height:280px;overflow-y:auto"></div>
+      </div>
     </div>
   </div>
 
@@ -1209,6 +1215,7 @@ function showAuthFeedback(msg, type) {
 function showAuthScreen() {
   hide('loadingScreen', 'startScreen', 'gameScreen', 'endScreen');
   show('authScreen');
+  loadAuthLeaderboard(); // Takma ad girmeden önce sıralamayı göster
 }
 
 function showStartScreen() {
@@ -1724,6 +1731,43 @@ function showFloatingScore(text, isPositive) {
   
   // Animasyon bitince sil
   setTimeout(() => floating.remove(), 1500);
+}
+
+// Auth ekranı için sıralama (takma ad girilmeden önce - user bağımsız)
+async function loadAuthLeaderboard() {
+  const today = new Date().toISOString().split('T')[0];
+
+  const { data, error } = await sb
+    .from('game_sessions')
+    .select('nickname, user_id, score, time_remaining')
+    .eq('puzzle_date', today)
+    .order('score', { ascending: false })
+    .order('time_remaining', { ascending: false })
+    .limit(10);
+
+  if (error) {
+    $('leaderboardAuth').innerHTML = '<div style="padding:20px;text-align:center;color:#888">Sıralama yüklenemedi</div>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    $('leaderboardAuth').innerHTML = '<div style="padding:20px;text-align:center;color:#888">Bugün ilk oynayan sen ol! 🎯</div>';
+    return;
+  }
+
+  const html = data.map((item, idx) => {
+    const displayName = item.nickname || `Oyuncu_${item.user_id.slice(0, 6)}`;
+    const timeStr = formatTime(item.time_remaining);
+    return `
+      <div class="lb-item">
+        <div class="lb-rank">#${idx + 1}</div>
+        <div class="lb-user">${displayName}</div>
+        <div class="lb-score">${item.score} <span style="font-size:11px;color:#888">+${timeStr}</span></div>
+      </div>
+    `;
+  }).join('');
+
+  $('leaderboardAuth').innerHTML = html;
 }
 
 // Start screen'deki leaderboard
