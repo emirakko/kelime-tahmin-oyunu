@@ -973,9 +973,11 @@ button:disabled{opacity:.5;cursor:not-allowed}
           <li>Doğru cevap → açılmamış harf × 100 puan kazanırsın</li>
           <li>Yanlış → açılmamış harf × 100 puan kaybedersin</li>
           <li>⏱️ Daha fazla kalan süre arttırırsan sıralamada yukarı çıkarsın</li>
-          <li>📅 Günde 1 kez oynama hakkın var</li>
+          <li>📅 Günlük yarışmayı günde 1 kez oynayabilirsin</li>
         </ul></div>
-        <button class="bp" onclick="startGame()" id="startBtn" style="width:100%;margin-top:16px">Oyuna Başla</button>
+        <button class="bp" onclick="startGame('daily')" id="startBtn" style="width:100%;margin-top:16px">🏆 Günlük Yarışmayı Oyna</button>
+        <button class="bp" onclick="startGame('practice')" id="practiceBtn" style="width:100%;margin-top:10px;background:var(--navy-50);color:var(--navy-800);border:1px solid var(--border)">🔁 Pratik Modu (Sınırsız)</button>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:10px;text-align:center">Pratik modu sıralamaya yansımaz, istediğin kadar oynayabilirsin.</p>
       </div>
       
       <!-- Sağ: Bugünün Sıralaması -->
@@ -996,7 +998,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <span class="user-name" id="userNameGame"></span>
     </div>
     <div class="hdr">
-      <div class="hdr-info">Soru <span id="qN">1</span> / 7</div>
+      <div class="hdr-info">Soru <span id="qN">1</span> / 7 <span id="modeBadge" style="margin-left:8px;font-size:11px;padding:3px 8px;border-radius:10px;background:var(--navy-50);color:var(--navy-700);font-weight:700;vertical-align:middle"></span></div>
       <div class="hdr-score">Skor: <span id="sc">0</span></div>
     </div>
 
@@ -1048,7 +1050,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <div class="brand-logo" style="width:36px;height:36px;font-size:18px">H</div>
       <div class="brand-name" style="font-size:22px">Harf<span class="accent">Ver</span></div>
     </div>
-    <h2 style="margin-top:8px">🎉 Oyun Bitti!</h2>
+    <h2 style="margin-top:8px" id="endTitle">🎉 Oyun Bitti!</h2>
     <div class="fscore" id="fs">0</div>
     <div class="emsg" id="em"></div>
     <div class="sgrid">
@@ -1068,13 +1070,17 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <div class="share-toast" id="shareToast"></div>
     </div>
 
-    <!-- LEADERBOARD -->
-    <div class="lb">
+    <!-- LEADERBOARD (sadece günlük yarışmada gösterilir) -->
+    <div class="lb" id="lbSection">
       <h3>📊 Bugünün Sıralaması</h3>
       <div class="lb-list" id="leaderboard"></div>
     </div>
 
-    <button class="bp" onclick="goHome()" style="margin-top:20px">Ana Sayfaya Dön</button>
+    <!-- PRATİK MODU NOTU (sadece pratik modunda gösterilir) -->
+    <div class="fb info" id="practiceNote" style="display:none;margin-top:16px">🔁 Pratik modu skorları sıralamaya yansımaz.</div>
+
+    <button class="bp" onclick="startGame('practice')" id="practiceAgainBtn" style="width:100%;margin-top:20px;display:none">🔁 Tekrar Pratik Yap</button>
+    <button class="bp" onclick="goHome()" style="margin-top:12px">Ana Sayfaya Dön</button>
 
     <a href="kelime/" class="dict-link">📖 Türkçe Sözlük'te kelime anlamlarını keşfet →</a>
   </div>
@@ -1115,6 +1121,7 @@ let score = 0;
 let revealed = [];
 let questionDone = false;
 let stats = { correct: 0, wrong: 0, letters: 0, results: [] };
+let gameMode = 'daily'; // 'daily' | 'practice'
 
 // Timers
 const TOTAL_TIME = 120;
@@ -1268,17 +1275,47 @@ async function loadTodaysPuzzle() {
   return data[0].questions;
 }
 
-// ==================== START GAME ====================
-async function startGame() {
-  $('startBtn').disabled = true;
-  $('startBtn').textContent = 'Yükleniyor...';
+async function loadPracticePuzzle() {
+  const { data, error } = await sb.rpc('get_random_practice_puzzle');
 
-  puzzleData = await loadTodaysPuzzle();
+  if (error) {
+    alert('Hata: ' + error.message);
+    return null;
+  }
+
+  return data[0].questions;
+}
+
+// ==================== START GAME ====================
+async function startGame(mode) {
+  gameMode = mode === 'practice' ? 'practice' : 'daily';
+
+  const startBtn = $('startBtn');
+  const practiceBtn = $('practiceBtn');
+  const practiceAgainBtn = $('practiceAgainBtn');
+
+  function setLoading(isLoading) {
+    if (startBtn) {
+      startBtn.disabled = isLoading && gameMode === 'daily';
+      startBtn.textContent = (isLoading && gameMode === 'daily') ? 'Yükleniyor...' : '🏆 Günlük Yarışmayı Oyna';
+    }
+    if (practiceBtn) {
+      practiceBtn.disabled = isLoading && gameMode === 'practice';
+      practiceBtn.textContent = (isLoading && gameMode === 'practice') ? 'Yükleniyor...' : '🔁 Pratik Modu (Sınırsız)';
+    }
+    if (practiceAgainBtn) {
+      practiceAgainBtn.disabled = isLoading && gameMode === 'practice';
+      practiceAgainBtn.textContent = (isLoading && gameMode === 'practice') ? 'Yükleniyor...' : '🔁 Tekrar Pratik Yap';
+    }
+  }
+
+  setLoading(true);
+
+  puzzleData = gameMode === 'practice' ? await loadPracticePuzzle() : await loadTodaysPuzzle();
   
   if (!puzzleData || puzzleData.length !== 7) {
     alert('Sorular yüklenemedi!');
-    $('startBtn').disabled = false;
-    $('startBtn').textContent = 'Oyuna Başla';
+    setLoading(false);
     return;
   }
 
@@ -1287,6 +1324,13 @@ async function startGame() {
   score = 0;
   stats = { correct: 0, wrong: 0, letters: 0, results: [] };
   mainRemaining = TOTAL_TIME;
+
+  const modeBadge = $('modeBadge');
+  if (modeBadge) {
+    modeBadge.textContent = gameMode === 'practice' ? '🔁 PRATİK' : '🏆 GÜNLÜK';
+  }
+
+  setLoading(false);
   
   showGameScreen();
   startMainTimer();
@@ -1549,30 +1593,16 @@ async function finishGame() {
   stopMainTimer();
   stopAnsTimer();
 
-  // Skoru kaydet (her oyun yeni kayıt - takma ad ile)
-  const today = new Date().toISOString().split('T')[0];
-  
-  // Önce nickname ile dene
-  let { error } = await sb
-    .from('game_sessions')
-    .insert({
-      user_id: user.id,
-      nickname: user.nickname,
-      puzzle_date: today,
-      score: score,
-      correct_count: stats.correct,
-      wrong_count: stats.wrong,
-      letters_taken: stats.letters,
-      time_remaining: mainRemaining
-    });
-  
-  // Nickname kolonu yoksa, nickname olmadan tekrar dene
-  if (error && error.message && error.message.toLowerCase().includes('nickname')) {
-    console.warn('nickname kolonu yok, kolonsuz kaydediliyor. Lütfen SQL migration\'ı çalıştır.');
-    const { error: e2 } = await sb
+  if (gameMode === 'daily') {
+    // Skoru kaydet (her oyun yeni kayıt - takma ad ile)
+    const today = new Date().toISOString().split('T')[0];
+
+    // Önce nickname ile dene
+    let { error } = await sb
       .from('game_sessions')
       .insert({
         user_id: user.id,
+        nickname: user.nickname,
         puzzle_date: today,
         score: score,
         correct_count: stats.correct,
@@ -1580,12 +1610,28 @@ async function finishGame() {
         letters_taken: stats.letters,
         time_remaining: mainRemaining
       });
-    error = e2;
-  }
-  
-  if (error) {
-    console.error('Skor kaydedilemedi:', error);
-    alert('Skor kaydedilemedi: ' + (error.message || 'Bilinmeyen hata'));
+
+    // Nickname kolonu yoksa, nickname olmadan tekrar dene
+    if (error && error.message && error.message.toLowerCase().includes('nickname')) {
+      console.warn('nickname kolonu yok, kolonsuz kaydediliyor. Lütfen SQL migration\'ı çalıştır.');
+      const { error: e2 } = await sb
+        .from('game_sessions')
+        .insert({
+          user_id: user.id,
+          puzzle_date: today,
+          score: score,
+          correct_count: stats.correct,
+          wrong_count: stats.wrong,
+          letters_taken: stats.letters,
+          time_remaining: mainRemaining
+        });
+      error = e2;
+    }
+
+    if (error) {
+      console.error('Skor kaydedilemedi:', error);
+      alert('Skor kaydedilemedi: ' + (error.message || 'Bilinmeyen hata'));
+    }
   }
 
   // Sonuçları göster
@@ -1604,9 +1650,25 @@ async function finishGame() {
   else if (ratio >= 0.2) msg = 'Fena değil, tekrar dene! 💪';
   $('em').textContent = msg;
 
-  // Leaderboard yükle
-  await loadLeaderboard();
-  
+  const endTitle = $('endTitle');
+  const lbSection = $('lbSection');
+  const practiceNote = $('practiceNote');
+  const practiceAgainBtn = $('practiceAgainBtn');
+
+  if (gameMode === 'practice') {
+    if (endTitle) endTitle.textContent = '🔁 Pratik Tamamlandı!';
+    if (lbSection) lbSection.style.display = 'none';
+    if (practiceNote) practiceNote.style.display = 'block';
+    if (practiceAgainBtn) practiceAgainBtn.style.display = 'block';
+  } else {
+    if (endTitle) endTitle.textContent = '🎉 Oyun Bitti!';
+    if (lbSection) lbSection.style.display = 'block';
+    if (practiceNote) practiceNote.style.display = 'none';
+    if (practiceAgainBtn) practiceAgainBtn.style.display = 'none';
+    // Leaderboard yükle (sadece günlük yarışmada)
+    await loadLeaderboard();
+  }
+
   // Paylaşım metnini hazırla
   buildShareText();
 
@@ -1646,7 +1708,8 @@ function buildShareText() {
   const timeStr = formatTime(mainRemaining);
   
   // Tam metin
-  shareText = `🎯 HarfVer ${dateStr}\n\n` +
+  const modeLabel = gameMode === 'practice' ? 'HarfVer (Pratik Modu)' : 'HarfVer';
+  shareText = `🎯 ${modeLabel} ${dateStr}\n\n` +
     `📊 ${score} puan • ⏱️ ${timeStr}\n` +
     `✅ ${stats.correct}/${totalQuestions}  •  🔤 ${stats.letters} harf alındı\n\n` +
     `${grid}\n\n` +
