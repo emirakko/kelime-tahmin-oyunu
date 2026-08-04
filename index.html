@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="-swbUiydzO8w5uOspC9O25V9JM-eZe0TejiAZ3Xdusg">
 <title>HarfVer - Günlük Türkçe Kelime Tahmin Oyunu</title>
-<meta name="description" content="HarfVer, her gün yeni 14 soruyla oynanan ücretsiz Türkçe kelime tahmin oyunu. Tanımdan kelimeyi en az harfle bul, yüksek puan topla, sıralamada yarış.">
+<meta name="description" content="HarfVer, her gün yeni 7 soruyla oynanan ücretsiz Türkçe kelime tahmin oyunu. Tanımdan kelimeyi en az harfle bul, yüksek puan topla, sıralamada yarış.">
 <link rel="canonical" href="https://harfver.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -968,7 +968,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <!-- Sol: Kurallar -->
       <div>
         <div class="rules"><ul>
-          <li>Toplamda 14 soru için 4 dakikan var</li>
+          <li>Toplamda 7 soru için 4 dakikan var</li>
           <li>Butona bastığında 15 saniyelik yanıtlama süren başlar</li>
           <li>Doğru cevap → açılmamış harf × 100 puan kazanırsın</li>
           <li>Yanlış → açılmamış harf × 100 puan kaybedersin</li>
@@ -996,7 +996,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <span class="user-name" id="userNameGame"></span>
     </div>
     <div class="hdr">
-      <div class="hdr-info">Soru <span id="qN">1</span> / 14</div>
+      <div class="hdr-info">Soru <span id="qN">1</span> / 7</div>
       <div class="hdr-score">Skor: <span id="sc">0</span></div>
     </div>
 
@@ -1275,7 +1275,7 @@ async function startGame() {
 
   puzzleData = await loadTodaysPuzzle();
   
-  if (!puzzleData || puzzleData.length !== 14) {
+  if (!puzzleData || puzzleData.length !== 7) {
     alert('Sorular yüklenemedi!');
     $('startBtn').disabled = false;
     $('startBtn').textContent = 'Oyuna Başla';
@@ -1301,7 +1301,7 @@ function loadQuestion() {
   const q = puzzleData[currentQuestionIndex];
   
   $('qN').textContent = currentQuestionIndex + 1;
-  $('pf').style.width = `${(currentQuestionIndex / 14) * 100}%`;
+  $('pf').style.width = `${(currentQuestionIndex / 7) * 100}%`;
   $('lc').textContent = `${q.letter_count} HARFLİ`;
   $('qt').textContent = q.question;
   $('fb').style.display = 'none';
@@ -1535,7 +1535,7 @@ async function passQuestion() {
 // ==================== NEXT ====================
 function nextQuestion() {
   currentQuestionIndex++;
-  if (currentQuestionIndex >= 14 || mainRemaining <= 0) {
+  if (currentQuestionIndex >= 7 || mainRemaining <= 0) {
     finishGame();
   } else {
     loadQuestion();
@@ -1595,7 +1595,7 @@ async function finishGame() {
   $('xL').textContent = stats.letters;
   $('xT').textContent = formatTime(mainRemaining);
 
-  const maxScore = 9800; // 14 soru max puan
+  const maxScore = 4900; // 7 soru max puan (4+5+6+7+8+9+10 harf × 100)
   const ratio = score / maxScore;
   let msg = 'Pratik yapmaya devam! 📚';
   if (ratio >= 0.8) msg = 'Muhteşem! Kelime ustasısın! 🏆';
@@ -1627,7 +1627,7 @@ function buildShareText() {
   // 🟥 = yanlış / süre doldu
   // ⬜ = oynanmamış (süre doldu)
   let grid = '';
-  const totalQuestions = 14;
+  const totalQuestions = 7;
   
   for (let i = 0; i < totalQuestions; i++) {
     const result = stats.results[i];
