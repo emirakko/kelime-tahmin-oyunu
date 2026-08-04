@@ -1070,9 +1070,9 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <p id="dateDisplay" style="margin-bottom:20px;color:var(--text-muted);font-size:14px"></p>
     
     <!-- 2 Kolonlu Layout -->
-    <div class="start-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px">
+    <div class="start-grid" id="rulesGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:20px">
       <!-- Sol: Kurallar -->
-      <div>
+      <div id="rulesCol">
         <div class="rules"><ul id="rulesList">
           <li>Toplamda 7 soru için 2 dakikan var</li>
           <li>Butona bastığında 15 saniyelik yanıtlama süren başlar</li>
@@ -1354,13 +1354,17 @@ function showRulesScreen(mode) {
   const freqLine = $('rulesFrequencyLine');
   const lbWrap = $('rulesLeaderboardWrap');
   const alreadyPlayed = $('alreadyPlayed');
+  const grid = $('rulesGrid');
+  const rulesCol = $('rulesCol');
 
   if (selectedMode === 'daily') {
     title.textContent = '🏆 Günlük Yarışma';
     if (freqLine) freqLine.textContent = '📅 Günlük yarışmayı günde 1 kez oynayabilirsin';
     if (lbWrap) lbWrap.style.display = 'block';
     if (alreadyPlayed) alreadyPlayed.style.display = 'none';
-    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🏆 Yarışmayı Başlat'; }
+    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🏆 Yarışmayı Başlat'; startBtn.style.display = 'block'; }
+    if (grid) { grid.style.gridTemplateColumns = '1fr 1fr'; grid.style.justifyItems = 'stretch'; }
+    if (rulesCol) { rulesCol.style.maxWidth = 'none'; rulesCol.style.margin = '0'; }
     loadStartLeaderboard();
     checkIfPlayedToday();
   } else {
@@ -1368,7 +1372,10 @@ function showRulesScreen(mode) {
     if (freqLine) freqLine.textContent = '🔁 Pratik modunda istediğin kadar oynayabilirsin, sıralamaya yansımaz';
     if (lbWrap) lbWrap.style.display = 'none';
     if (alreadyPlayed) alreadyPlayed.style.display = 'none';
-    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🔁 Pratiğe Başla'; }
+    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🔁 Pratiğe Başla'; startBtn.style.display = 'block'; }
+    // Sağ tarafta sıralama olmadığı için kuralları ortala
+    if (grid) { grid.style.gridTemplateColumns = '1fr'; grid.style.justifyItems = 'center'; }
+    if (rulesCol) { rulesCol.style.maxWidth = '420px'; rulesCol.style.margin = '0 auto'; }
   }
 }
 
@@ -1391,13 +1398,30 @@ function updateDateDisplay() {
   $('dateDisplay').textContent = today.toLocaleDateString('tr-TR', options);
 }
 
-// ==================== CHECK IF PLAYED (TEST MODE - DEVRE DIŞI) ====================
+// ==================== CHECK IF PLAYED (GÜNLÜK YARIŞMA İÇİN) ====================
 async function checkIfPlayedToday() {
-  // Test modunda her zaman oynanabilir
-  $('startBtn').style.display = 'block';
-  $('alreadyPlayed').style.display = 'none';
-  $('startBtn').disabled = false;
-  $('startBtn').textContent = '🏆 Yarışmayı Başlat';
+  const startBtn = $('startBtn');
+  const alreadyPlayed = $('alreadyPlayed');
+
+  if (!user) return;
+
+  const { data, error } = await sb.rpc('has_played_today', { p_user_id: user.id });
+
+  if (error) {
+    console.error('Oynama durumu kontrol edilemedi:', error);
+    // Hata durumunda oynamaya izin ver, kullanıcıyı kilitlemeyelim
+    if (startBtn) { startBtn.style.display = 'block'; startBtn.disabled = false; }
+    if (alreadyPlayed) alreadyPlayed.style.display = 'none';
+    return;
+  }
+
+  if (data === true) {
+    if (startBtn) { startBtn.style.display = 'none'; }
+    if (alreadyPlayed) alreadyPlayed.style.display = 'block';
+  } else {
+    if (startBtn) { startBtn.style.display = 'block'; startBtn.disabled = false; startBtn.textContent = '🏆 Yarışmayı Başlat'; }
+    if (alreadyPlayed) alreadyPlayed.style.display = 'none';
+  }
 }
 
 // ==================== LOAD PUZZLE ====================
@@ -1764,8 +1788,13 @@ async function finishGame() {
     }
 
     if (error) {
-      console.error('Skor kaydedilemedi:', error);
-      alert('Skor kaydedilemedi: ' + (error.message || 'Bilinmeyen hata'));
+      if (error.code === '23505') {
+        // Bu kullanıcı bugün zaten oynamış (unique constraint) - sessizce geç
+        console.warn('Bu kullanıcı bugün zaten oynamış, skor tekrar kaydedilmedi.');
+      } else {
+        console.error('Skor kaydedilemedi:', error);
+        alert('Skor kaydedilemedi: ' + (error.message || 'Bilinmeyen hata'));
+      }
     }
   }
 
