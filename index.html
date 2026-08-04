@@ -968,7 +968,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <!-- Sol: Kurallar -->
       <div>
         <div class="rules"><ul>
-          <li>Toplamda 7 soru için 4 dakikan var</li>
+          <li>Toplamda 7 soru için 2 dakikan var</li>
           <li>Butona bastığında 15 saniyelik yanıtlama süren başlar</li>
           <li>Doğru cevap → açılmamış harf × 100 puan kazanırsın</li>
           <li>Yanlış → açılmamış harf × 100 puan kaybedersin</li>
@@ -1001,7 +1001,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
     </div>
 
     <div class="timer-row">
-      <div class="timer-text" id="mainTimer">4:00</div>
+      <div class="timer-text" id="mainTimer">2:00</div>
       <div class="timer-bar-wrap"><div class="timer-bar-fill" id="mainBar" style="width:100%"></div></div>
     </div>
 
@@ -1117,7 +1117,7 @@ let questionDone = false;
 let stats = { correct: 0, wrong: 0, letters: 0, results: [] };
 
 // Timers
-const TOTAL_TIME = 240;
+const TOTAL_TIME = 120;
 const ANS_TIME = 15;
 let mainRemaining = TOTAL_TIME;
 let mainInterval = null;
