@@ -194,8 +194,8 @@ h3{font-size:18px;margin-bottom:12px}
 .mode-select > p.sub{color:var(--text-muted);font-size:14px;margin-bottom:24px}
 .mode-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
   align-items:stretch;
 }
 .mode-card{
@@ -244,12 +244,123 @@ h3{font-size:18px;margin-bottom:12px}
   font-size:11px;font-weight:700;
   padding:5px 14px;border-radius:20px;
   box-shadow:0 4px 10px rgba(0,0,0,.25);
-  white-space:nowrap;
   letter-spacing:.3px;
+  text-align:center;
 }
-@media(max-width:600px){
+@media(max-width:700px){
   .mode-grid{grid-template-columns:1fr}
 }
+
+/* DUEL / 1v1 MODU */
+.duel-setup-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:20px;
+}
+@media(max-width:600px){
+  .duel-setup-grid{grid-template-columns:1fr}
+}
+.duel-setup-card{
+  background:var(--navy-50);
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:22px 16px;
+  text-align:center;
+}
+.duel-setup-card h3{font-size:17px;margin:8px 0 6px}
+.duel-setup-card .mode-card-icon{font-size:32px;margin-bottom:4px}
+.duel-setup-card .mode-card-desc{font-size:13px;color:var(--text-muted);margin-bottom:14px}
+.duel-setup-card[onclick]{cursor:pointer;transition:transform .15s,border-color .15s}
+.duel-setup-card[onclick]:hover{transform:translateY(-2px);border-color:var(--navy-400)}
+
+.duel-code-box{
+  text-align:center;
+  background:var(--navy-50);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  margin:16px 0;
+}
+.duel-code{
+  font-size:38px;
+  font-weight:800;
+  letter-spacing:6px;
+  color:var(--navy-800);
+  margin:8px 0;
+  font-family:monospace;
+}
+
+.duel-players{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  margin:24px 0;
+}
+.duel-player-slot{
+  flex:1;
+  max-width:160px;
+  text-align:center;
+  background:var(--navy-50);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 10px;
+}
+.duel-player-avatar{font-size:32px;margin-bottom:6px}
+.duel-player-name{font-weight:700;font-size:14px;color:var(--navy-800);word-break:break-word}
+.duel-player-tag{font-size:11px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:.4px}
+.duel-vs{font-weight:800;color:var(--accent-dark);font-size:15px}
+
+.duel-countdown-number{
+  font-size:120px;
+  font-weight:800;
+  text-align:center;
+  color:var(--navy-800);
+  line-height:1;
+  margin:60px 0 12px;
+  animation:duelPulse .6s ease-in-out infinite;
+}
+@keyframes duelPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12)}
+}
+
+.duel-wait-spinner{
+  width:44px;height:44px;
+  margin:20px auto;
+  border:4px solid var(--border);
+  border-top-color:var(--navy-700);
+  border-radius:50%;
+  animation:duelSpin .8s linear infinite;
+}
+@keyframes duelSpin{to{transform:rotate(360deg)}}
+
+.duel-result-grid{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-top:20px;
+}
+.duel-result-card{
+  flex:1;
+  max-width:180px;
+  text-align:center;
+  background:var(--navy-50);
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:20px 12px;
+  transition:all .2s;
+}
+.duel-result-card.duel-winner{
+  border-color:var(--accent);
+  background:linear-gradient(160deg,var(--navy-800) 0%,var(--navy-900) 100%);
+  box-shadow:0 8px 24px rgba(251,191,36,.3);
+}
+.duel-result-card.duel-winner .duel-player-name,
+.duel-result-card.duel-winner .duel-result-score{color:#fff}
+.duel-result-score{font-size:30px;font-weight:800;color:var(--navy-800);margin-top:8px}
 
 /* RULES */
 .rules{
@@ -1054,12 +1165,12 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <p class="sub">Nasıl oynamak istersin?</p>
 
     <div class="mode-grid">
-      <!-- Sol: Pratik Modu -->
+      <!-- Sol: Tek Kişilik Oyun -->
       <div class="mode-card" id="modeCardPractice" onclick="selectMode('practice')">
-        <div class="mode-card-icon">🔁</div>
-        <h3>Pratik Modu</h3>
+        <div class="mode-card-icon">🎮</div>
+        <h3>Tek Kişilik Oyun</h3>
         <p class="mode-card-desc">Sınırsız oyna, kendini geliştir</p>
-        <p class="mode-card-note">Pratik modu sıralamaya yansımaz, istediğin kadar oynayabilirsin.</p>
+        <p class="mode-card-note">Tek kişilik oyun sıralamaya yansımaz, istediğin kadar oynayabilirsin.</p>
       </div>
 
       <!-- Sağ: Günlük Yarışma (dikkat çekici) -->
@@ -1069,6 +1180,14 @@ button:disabled{opacity:.5;cursor:not-allowed}
         <h3>Günlük Yarışma</h3>
         <p class="mode-card-desc">Herkesle aynı 7 soru, sıralamada yarış</p>
         <p class="mode-card-note">Günlük yarışmayı günde 1 kez oynayabilirsin.</p>
+      </div>
+
+      <!-- 1v1 Modu -->
+      <div class="mode-card" id="modeCardDuel" onclick="showDuelSetupScreen()">
+        <div class="mode-card-icon">⚔️</div>
+        <h3>1v1 Modu</h3>
+        <p class="mode-card-desc">Arkadaşını davet et, kim daha yüksek puan alacak?</p>
+        <p class="mode-card-note">Lobi oluştur veya kod ile katıl, aynı sorularla yarışın.</p>
       </div>
     </div>
   </div>
@@ -1112,6 +1231,121 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div id="alreadyPlayed" style="display:none;margin-top:16px">
       <div class="fb info">Bugün zaten oynadın! Yarın tekrar dene.</div>
     </div>
+  </div>
+
+  <!-- 1v1 SETUP: Lobi oluştur veya kod ile katıl -->
+  <div id="duelSetupScreen" class="mode-select" style="display:none">
+    <div class="user-info">
+      <span class="user-name" id="userNameDuelSetup"></span>
+      <button class="btn-logout" onclick="signOut()">Çıkış</button>
+    </div>
+    <button class="back-link" onclick="showModeSelectScreen()">← Modu değiştir</button>
+    <div class="brand" style="margin-bottom:6px">
+      <div class="brand-logo">H</div>
+      <div class="brand-name">Harf<span class="accent">Ver</span></div>
+    </div>
+    <h2 style="margin-bottom:2px">⚔️ 1v1 Modu</h2>
+    <p class="sub">Bir lobi oluştur veya arkadaşının kodunu gir</p>
+
+    <div class="duel-setup-grid">
+      <div class="duel-setup-card" onclick="createDuelLobby()">
+        <div class="mode-card-icon">➕</div>
+        <h3>Lobi Oluştur</h3>
+        <p class="mode-card-desc">Arkadaşına göndereceğin bir kod oluştur</p>
+      </div>
+      <div class="duel-setup-card">
+        <div class="mode-card-icon">🔑</div>
+        <h3>Kod ile Katıl</h3>
+        <p class="mode-card-desc">Arkadaşının paylaştığı 6 haneli kodu gir</p>
+        <input type="text" id="duelCodeInput" class="auth-input" placeholder="Örn: AB12CD" maxlength="6" style="text-transform:uppercase;text-align:center;letter-spacing:3px;font-weight:700">
+        <button class="bp" style="width:100%" onclick="joinDuelLobby()">Katıl</button>
+      </div>
+    </div>
+    <div id="duelSetupFeedback" class="fb" style="margin-top:16px"></div>
+  </div>
+
+  <!-- 1v1 LOBBY: kod paylaşımı ve rakip bekleme -->
+  <div id="duelLobbyScreen" class="start" style="display:none">
+    <div class="user-info">
+      <span class="user-name" id="userNameDuelLobby"></span>
+      <button class="btn-logout" onclick="signOut()">Çıkış</button>
+    </div>
+    <div class="brand" style="margin-bottom:6px">
+      <div class="brand-logo">H</div>
+      <div class="brand-name">Harf<span class="accent">Ver</span></div>
+    </div>
+    <h2 style="margin-bottom:2px">⚔️ 1v1 Lobisi</h2>
+
+    <div class="duel-code-box">
+      <p style="font-size:13px;color:var(--text-muted)">Lobi Kodu</p>
+      <div class="duel-code" id="duelCodeDisplay">------</div>
+      <button class="back-link" onclick="copyDuelCode()" style="justify-content:center">📋 Kodu Kopyala</button>
+    </div>
+
+    <div class="duel-players">
+      <div class="duel-player-slot" id="duelHostSlot">
+        <div class="duel-player-avatar">👤</div>
+        <div class="duel-player-name" id="duelHostName">-</div>
+        <div class="duel-player-tag">Ev Sahibi</div>
+      </div>
+      <div class="duel-vs">VS</div>
+      <div class="duel-player-slot" id="duelGuestSlot">
+        <div class="duel-player-avatar">❔</div>
+        <div class="duel-player-name" id="duelGuestName">Bekleniyor...</div>
+        <div class="duel-player-tag">Rakip</div>
+      </div>
+    </div>
+
+    <div id="duelHostControls" style="display:none">
+      <button class="bp" id="duelStartBtn" style="width:100%" disabled onclick="startDuelCountdown()">Rakip Bekleniyor...</button>
+    </div>
+    <p id="duelGuestWaiting" style="display:none;color:var(--text-muted);font-size:14px;text-align:center">Ev sahibinin oyunu başlatmasını bekliyorsun...</p>
+
+    <button class="back-link" onclick="cancelDuelLobby()" style="width:100%;margin-top:14px;justify-content:center;text-align:center">Lobiden Ayrıl</button>
+  </div>
+
+  <!-- 1v1 GERİ SAYIM -->
+  <div id="duelCountdownScreen" class="start" style="display:none">
+    <div class="duel-countdown-number" id="duelCountdownNum">3</div>
+    <p style="color:var(--text-muted);font-size:15px;text-align:center">Hazır ol!</p>
+  </div>
+
+  <!-- 1v1 RAKİP BEKLENİYOR -->
+  <div id="duelWaitingScreen" class="start" style="display:none">
+    <div class="brand" style="margin-bottom:6px">
+      <div class="brand-logo">H</div>
+      <div class="brand-name">Harf<span class="accent">Ver</span></div>
+    </div>
+    <h2 style="margin-bottom:2px">⏳ Sonucun Kaydedildi</h2>
+    <p style="color:var(--text-muted);font-size:15px">Rakibinin bitirmesini bekliyoruz...</p>
+    <div class="duel-wait-spinner"></div>
+    <div class="sgrid">
+      <div class="scard"><div class="slbl">Skorun</div><div class="sval" id="duelMyScore">0</div></div>
+    </div>
+    <div id="duelForfeitBox" style="display:none;margin-top:20px;text-align:center">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:10px">Rakibin uzun süredir bitirmedi, bağlantısı kopmuş olabilir.</p>
+      <button class="bp" style="width:100%" onclick="forceRevealDuelResult()">Sonucu Gör</button>
+    </div>
+  </div>
+
+  <!-- 1v1 SONUÇ -->
+  <div id="duelResultScreen" class="start" style="display:none">
+    <h2 id="duelResultTitle">🎉 Maç Bitti!</h2>
+    <div class="duel-result-grid">
+      <div class="duel-result-card" id="duelResultMe">
+        <div class="duel-player-avatar">👤</div>
+        <div class="duel-player-name" id="duelResultMeName">Sen</div>
+        <div class="duel-result-score" id="duelResultMeScore">0</div>
+      </div>
+      <div class="duel-vs">VS</div>
+      <div class="duel-result-card" id="duelResultOpp">
+        <div class="duel-player-avatar">👤</div>
+        <div class="duel-player-name" id="duelResultOppName">Rakip</div>
+        <div class="duel-result-score" id="duelResultOppScore">0</div>
+      </div>
+    </div>
+    <button class="bp" style="width:100%;margin-top:24px" onclick="showDuelSetupScreen()">⚔️ Yeni 1v1 Oyna</button>
+    <button class="back-link" style="width:100%;margin-top:10px;justify-content:center;text-align:center" onclick="goHome()">Ana Sayfaya Dön</button>
   </div>
 
 
@@ -1198,10 +1432,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <div class="lb-list" id="leaderboard"></div>
     </div>
 
-    <!-- PRATİK MODU NOTU (sadece pratik modunda gösterilir) -->
-    <div class="fb info" id="practiceNote" style="display:none;margin-top:16px">🔁 Pratik modu skorları sıralamaya yansımaz.</div>
+    <!-- TEK KİŞİLİK OYUN NOTU (sadece tek kişilik modda gösterilir) -->
+    <div class="fb info" id="practiceNote" style="display:none;margin-top:16px">🎮 Tek kişilik oyun skorları sıralamaya yansımaz.</div>
 
-    <button class="bp" onclick="startGame('practice')" id="practiceAgainBtn" style="width:100%;margin-top:20px;display:none">🔁 Tekrar Pratik Yap</button>
+    <button class="bp" onclick="startGame('practice')" id="practiceAgainBtn" style="width:100%;margin-top:20px;display:none">🎮 Tekrar Oyna</button>
     <button class="bp" onclick="goHome()" style="margin-top:12px">Ana Sayfaya Dön</button>
 
     <a href="kelime/" class="dict-link">📖 Türkçe Sözlük'te kelime anlamlarını keşfet →</a>
@@ -1243,8 +1477,13 @@ let score = 0;
 let revealed = [];
 let questionDone = false;
 let stats = { correct: 0, wrong: 0, letters: 0, results: [] };
-let gameMode = 'daily'; // 'daily' | 'practice'
+let gameMode = 'daily'; // 'daily' | 'practice' | 'duel'
 let selectedMode = 'daily'; // mod seçim ekranında seçilen mod
+
+// ---- 1v1 (duel) state ----
+let currentDuel = null; // { id, code, isHost, puzzleQuestions }
+let duelPollTimer = null;
+let duelWaitStartedAt = null;
 
 // Timers
 const TOTAL_TIME = 120;
@@ -1284,6 +1523,10 @@ function setUserNameUI(name) {
   $('userNameRules').textContent = name;
   $('userNameGame').textContent = name;
   $('userNameEnd').textContent = name;
+  const duelSetup = $('userNameDuelSetup');
+  const duelLobby = $('userNameDuelLobby');
+  if (duelSetup) duelSetup.textContent = name;
+  if (duelLobby) duelLobby.textContent = name;
 }
 
 async function signInWithNickname() {
@@ -1344,14 +1587,30 @@ function showAuthFeedback(msg, type) {
 }
 
 // ==================== SCREENS ====================
+const ALL_SCREENS = [
+  'loadingScreen', 'authScreen', 'modeSelectScreen', 'rulesScreen',
+  'duelSetupScreen', 'duelLobbyScreen', 'duelCountdownScreen', 'duelWaitingScreen', 'duelResultScreen',
+  'gameScreen', 'endScreen'
+];
+
+function showOnlyScreen(id) {
+  // Düello ekranlarından ayrılırken (lobi/bekleme dışında) polling'i güvenli şekilde durdur
+  if (id !== 'duelLobbyScreen' && id !== 'duelWaitingScreen') {
+    stopDuelPolling();
+  }
+  ALL_SCREENS.forEach(s => {
+    const el = $(s);
+    if (el) el.style.display = (s === id ? 'block' : 'none');
+  });
+}
+
 function showAuthScreen() {
-  hide('loadingScreen', 'modeSelectScreen', 'rulesScreen', 'gameScreen', 'endScreen');
-  show('authScreen');
+  showOnlyScreen('authScreen');
 }
 
 function showModeSelectScreen() {
-  hide('loadingScreen', 'authScreen', 'rulesScreen', 'gameScreen', 'endScreen');
-  show('modeSelectScreen');
+  currentDuel = null;
+  showOnlyScreen('modeSelectScreen');
 }
 
 // Mod kartına tıklanınca kurallar ekranına geç
@@ -1361,8 +1620,7 @@ function selectMode(mode) {
 
 function showRulesScreen(mode) {
   selectedMode = mode === 'practice' ? 'practice' : 'daily';
-  hide('loadingScreen', 'authScreen', 'modeSelectScreen', 'gameScreen', 'endScreen');
-  show('rulesScreen');
+  showOnlyScreen('rulesScreen');
   updateDateDisplay();
 
   const title = $('rulesTitle');
@@ -1384,11 +1642,11 @@ function showRulesScreen(mode) {
     loadStartLeaderboard();
     checkIfPlayedToday();
   } else {
-    title.textContent = '🔁 Pratik Modu';
-    if (freqLine) freqLine.textContent = '🔁 Pratik modunda istediğin kadar oynayabilirsin, sıralamaya yansımaz';
+    title.textContent = '🎮 Tek Kişilik Oyun';
+    if (freqLine) freqLine.textContent = '🎮 İstediğin kadar oynayabilirsin, sıralamaya yansımaz';
     if (lbWrap) lbWrap.style.display = 'none';
     if (alreadyPlayed) alreadyPlayed.style.display = 'none';
-    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🔁 Pratiğe Başla'; startBtn.style.display = 'block'; }
+    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '🎮 Oyunu Başlat'; startBtn.style.display = 'block'; }
     // Sağ tarafta sıralama olmadığı için kuralları ortala
     if (grid) { grid.style.gridTemplateColumns = '1fr'; grid.style.justifyItems = 'center'; }
     if (rulesCol) { rulesCol.style.maxWidth = '420px'; rulesCol.style.margin = '0 auto'; }
@@ -1396,13 +1654,11 @@ function showRulesScreen(mode) {
 }
 
 function showGameScreen() {
-  hide('loadingScreen', 'authScreen', 'modeSelectScreen', 'rulesScreen', 'endScreen');
-  show('gameScreen');
+  showOnlyScreen('gameScreen');
 }
 
 function showEndScreen() {
-  hide('loadingScreen', 'authScreen', 'modeSelectScreen', 'rulesScreen', 'gameScreen');
-  show('endScreen');
+  showOnlyScreen('endScreen');
 }
 
 function hide(...ids) { ids.forEach(id => $(id).style.display = 'none'); }
@@ -1476,37 +1732,42 @@ async function startGame(mode) {
       startBtn.disabled = isLoading;
       startBtn.textContent = isLoading
         ? 'Yükleniyor...'
-        : (gameMode === 'practice' ? '🔁 Pratiğe Başla' : '🏆 Yarışmayı Başlat');
+        : (gameMode === 'practice' ? '🎮 Oyunu Başlat' : '🏆 Yarışmayı Başlat');
     }
     if (practiceAgainBtn) {
       practiceAgainBtn.disabled = isLoading && gameMode === 'practice';
-      practiceAgainBtn.textContent = (isLoading && gameMode === 'practice') ? 'Yükleniyor...' : '🔁 Tekrar Pratik Yap';
+      practiceAgainBtn.textContent = (isLoading && gameMode === 'practice') ? 'Yükleniyor...' : '🎮 Tekrar Oyna';
     }
   }
 
   setLoading(true);
 
-  puzzleData = gameMode === 'practice' ? await loadPracticePuzzle() : await loadTodaysPuzzle();
+  const questions = gameMode === 'practice' ? await loadPracticePuzzle() : await loadTodaysPuzzle();
   
-  if (!puzzleData || puzzleData.length !== 7) {
+  if (!questions || questions.length !== 7) {
     alert('Sorular yüklenemedi!');
     setLoading(false);
     return;
   }
 
-  // Reset state
+  const modeBadge = $('modeBadge');
+  if (modeBadge) {
+    modeBadge.textContent = gameMode === 'practice' ? '🎮 TEK KİŞİLİK' : '🏆 GÜNLÜK';
+  }
+
+  setLoading(false);
+  
+  beginPuzzleSession(questions);
+}
+
+// Tüm modların ortak oturum başlatma mantığı (tekil oyun ve düello aynı akışı paylaşır)
+function beginPuzzleSession(questions) {
+  puzzleData = questions;
   currentQuestionIndex = 0;
   score = 0;
   stats = { correct: 0, wrong: 0, letters: 0, results: [] };
   mainRemaining = TOTAL_TIME;
 
-  const modeBadge = $('modeBadge');
-  if (modeBadge) {
-    modeBadge.textContent = gameMode === 'practice' ? '🔁 PRATİK' : '🏆 GÜNLÜK';
-  }
-
-  setLoading(false);
-  
   showGameScreen();
   startMainTimer();
   loadQuestion();
@@ -1759,6 +2020,11 @@ async function finishGame() {
   stopMainTimer();
   stopAnsTimer();
 
+  if (gameMode === 'duel') {
+    await finishDuelGame();
+    return;
+  }
+
   if (gameMode === 'daily') {
     // Skoru kaydet (her oyun yeni kayıt - takma ad ile)
     const today = new Date().toISOString().split('T')[0];
@@ -1827,7 +2093,7 @@ async function finishGame() {
   const practiceAgainBtn = $('practiceAgainBtn');
 
   if (gameMode === 'practice') {
-    if (endTitle) endTitle.textContent = '🔁 Pratik Tamamlandı!';
+    if (endTitle) endTitle.textContent = '🎮 Oyun Tamamlandı!';
     if (lbSection) lbSection.style.display = 'none';
     if (practiceNote) practiceNote.style.display = 'block';
     if (practiceAgainBtn) practiceAgainBtn.style.display = 'block';
@@ -1844,6 +2110,333 @@ async function finishGame() {
   buildShareText();
 
   showEndScreen();
+}
+
+// ==================== 1v1 (DÜELLO) MODU ====================
+
+// ---- Kurulum: lobi oluştur / kod ile katıl ----
+function showDuelSetupScreen() {
+  currentDuel = null;
+  showOnlyScreen('duelSetupScreen');
+  const codeInput = $('duelCodeInput');
+  if (codeInput) codeInput.value = '';
+  showDuelSetupFeedback('', '');
+}
+
+function showDuelSetupFeedback(msg, type) {
+  const fb = $('duelSetupFeedback');
+  if (!fb) return;
+  fb.textContent = msg;
+  fb.className = 'fb' + (type ? ' ' + type : '');
+}
+
+async function createDuelLobby() {
+  if (!user) return;
+  showDuelSetupFeedback('Lobi oluşturuluyor...', '');
+
+  const { data, error } = await sb.rpc('create_duel', {
+    p_host_id: user.id,
+    p_host_nickname: user.nickname
+  });
+
+  if (error || !data || !data[0]) {
+    showDuelSetupFeedback('Lobi oluşturulamadı: ' + (error?.message || 'bilinmeyen hata'), 'no');
+    return;
+  }
+
+  currentDuel = { id: data[0].id, code: data[0].code, isHost: true };
+  enterDuelLobby();
+}
+
+async function joinDuelLobby() {
+  if (!user) return;
+  const codeInput = $('duelCodeInput');
+  const code = (codeInput?.value || '').trim().toUpperCase();
+
+  if (code.length !== 6) {
+    showDuelSetupFeedback('6 haneli lobi kodunu gir', 'no');
+    return;
+  }
+
+  showDuelSetupFeedback('Lobiye katılınıyor...', '');
+
+  const { data, error } = await sb.rpc('join_duel', {
+    p_code: code,
+    p_guest_id: user.id,
+    p_guest_nickname: user.nickname
+  });
+
+  if (error || !data || !data[0]) {
+    showDuelSetupFeedback(error?.message || 'Lobiye katılamadın', 'no');
+    return;
+  }
+
+  currentDuel = { id: data[0].id, code: data[0].code, isHost: false };
+  enterDuelLobby();
+}
+
+// ---- Lobi ekranı: kod paylaşımı + rakip bekleme ----
+function enterDuelLobby() {
+  showOnlyScreen('duelLobbyScreen');
+  $('duelCodeDisplay').textContent = currentDuel.code;
+  $('duelHostControls').style.display = currentDuel.isHost ? 'block' : 'none';
+  $('duelGuestWaiting').style.display = currentDuel.isHost ? 'none' : 'block';
+  $('duelGuestName').textContent = 'Bekleniyor...';
+
+  pollDuelLobby();
+  duelPollTimer = setInterval(pollDuelLobby, 1500);
+}
+
+async function pollDuelLobby() {
+  if (!currentDuel) return;
+
+  const { data, error } = await sb.from('duels').select('*').eq('id', currentDuel.id).single();
+  if (error || !data) return;
+
+  if (data.status === 'cancelled') {
+    stopDuelPolling();
+    alert('Lobi kapatıldı.');
+    currentDuel = null;
+    showModeSelectScreen();
+    return;
+  }
+
+  if (data.status === 'countdown' && data.countdown_start_at) {
+    currentDuel.puzzleQuestions = data.puzzle_questions;
+    stopDuelPolling();
+    enterDuelCountdown(data.countdown_start_at);
+    return;
+  }
+
+  // Lobi hâlâ görünürdeyse oyuncu bilgilerini güncelle
+  const hostNameEl = $('duelHostName');
+  if (hostNameEl) hostNameEl.textContent = data.host_nickname;
+
+  if (data.guest_user_id) {
+    const guestNameEl = $('duelGuestName');
+    if (guestNameEl) guestNameEl.textContent = data.guest_nickname;
+    const guestAvatar = document.querySelector('#duelGuestSlot .duel-player-avatar');
+    if (guestAvatar) guestAvatar.textContent = '👤';
+
+    if (currentDuel.isHost) {
+      const startBtn = $('duelStartBtn');
+      if (startBtn && startBtn.textContent !== 'Başlatılıyor...') {
+        startBtn.disabled = false;
+        startBtn.textContent = '⚔️ Oyunu Başlat';
+      }
+    }
+  }
+}
+
+function stopDuelPolling() {
+  if (duelPollTimer) {
+    clearInterval(duelPollTimer);
+    duelPollTimer = null;
+  }
+}
+
+async function cancelDuelLobby() {
+  stopDuelPolling();
+  if (currentDuel && currentDuel.isHost) {
+    await sb.from('duels').update({ status: 'cancelled' }).eq('id', currentDuel.id);
+  }
+  currentDuel = null;
+  showModeSelectScreen();
+}
+
+function copyDuelCode() {
+  if (!currentDuel) return;
+  const el = $('duelCodeDisplay');
+  const original = currentDuel.code;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(original).catch(() => {});
+  }
+
+  el.textContent = 'Kopyalandı! ✓';
+  setTimeout(() => { el.textContent = original; }, 1200);
+}
+
+// ---- Başlatma: host soruları çeker ve geri sayımı tetikler ----
+async function startDuelCountdown() {
+  if (!currentDuel || !currentDuel.isHost) return;
+
+  const startBtn = $('duelStartBtn');
+  if (startBtn) { startBtn.disabled = true; startBtn.textContent = 'Başlatılıyor...'; }
+
+  const { data, error } = await sb.rpc('get_random_practice_puzzle');
+  if (error || !data || !data[0]) {
+    alert('Sorular yüklenemedi, tekrar dene.');
+    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '⚔️ Oyunu Başlat'; }
+    return;
+  }
+
+  const questions = data[0].questions;
+  const countdownStartAt = new Date().toISOString();
+
+  const { error: updateError } = await sb.from('duels').update({
+    puzzle_questions: questions,
+    status: 'countdown',
+    countdown_start_at: countdownStartAt
+  }).eq('id', currentDuel.id);
+
+  if (updateError) {
+    alert('Oyun başlatılamadı: ' + updateError.message);
+    if (startBtn) { startBtn.disabled = false; startBtn.textContent = '⚔️ Oyunu Başlat'; }
+    return;
+  }
+
+  currentDuel.puzzleQuestions = questions;
+  stopDuelPolling();
+  enterDuelCountdown(countdownStartAt);
+}
+
+// ---- Geri sayım: sunucu saatine göre senkronize (3 - geçen süre) ----
+function enterDuelCountdown(countdownStartAtIso) {
+  showOnlyScreen('duelCountdownScreen');
+
+  const startMs = new Date(countdownStartAtIso).getTime();
+  const numEl = $('duelCountdownNum');
+  let started = false;
+
+  const tick = () => {
+    if (started) return;
+    const elapsed = (Date.now() - startMs) / 1000;
+    const remaining = Math.ceil(3 - elapsed);
+
+    if (remaining > 0) {
+      numEl.textContent = remaining;
+      requestAnimationFrame(tick);
+    } else {
+      started = true;
+      gameMode = 'duel';
+      const modeBadge = $('modeBadge');
+      if (modeBadge) modeBadge.textContent = '⚔️ 1v1';
+      beginPuzzleSession(currentDuel.puzzleQuestions);
+    }
+  };
+  requestAnimationFrame(tick);
+}
+
+// ---- Bitiş: kendi sonucunu kaydet, rakibi bekle ----
+async function finishDuelGame() {
+  if (!currentDuel) {
+    showModeSelectScreen();
+    return;
+  }
+
+  const { data: beforeUpdate } = await sb
+    .from('duels')
+    .select('host_finished, guest_finished')
+    .eq('id', currentDuel.id)
+    .single();
+
+  const opponentAlreadyFinished = currentDuel.isHost
+    ? beforeUpdate?.guest_finished
+    : beforeUpdate?.host_finished;
+
+  const updatePayload = currentDuel.isHost ? {
+    host_score: score,
+    host_correct: stats.correct,
+    host_wrong: stats.wrong,
+    host_letters: stats.letters,
+    host_time_remaining: mainRemaining,
+    host_finished: true
+  } : {
+    guest_score: score,
+    guest_correct: stats.correct,
+    guest_wrong: stats.wrong,
+    guest_letters: stats.letters,
+    guest_time_remaining: mainRemaining,
+    guest_finished: true
+  };
+
+  if (opponentAlreadyFinished) {
+    updatePayload.status = 'finished';
+  }
+
+  const { error } = await sb.from('duels').update(updatePayload).eq('id', currentDuel.id);
+  if (error) {
+    console.error('Düello sonucu kaydedilemedi:', error);
+  }
+
+  if (opponentAlreadyFinished) {
+    const { data: finalRow } = await sb.from('duels').select('*').eq('id', currentDuel.id).single();
+    if (finalRow) { showDuelResult(finalRow); return; }
+  }
+
+  showDuelWaitingScreen();
+}
+
+function showDuelWaitingScreen() {
+  showOnlyScreen('duelWaitingScreen');
+  $('duelMyScore').textContent = score;
+  $('duelForfeitBox').style.display = 'none';
+  duelWaitStartedAt = Date.now();
+
+  pollDuelResult();
+  duelPollTimer = setInterval(pollDuelResult, 1500);
+}
+
+async function pollDuelResult() {
+  if (!currentDuel) return;
+
+  const { data, error } = await sb.from('duels').select('*').eq('id', currentDuel.id).single();
+  if (error || !data) return;
+
+  if (data.status === 'finished' || (data.host_finished && data.guest_finished)) {
+    stopDuelPolling();
+    showDuelResult(data);
+    return;
+  }
+
+  // Rakip uzun süredir bitirmediyse (bağlantı kopmuş olabilir) manuel çıkış seçeneği göster
+  if (duelWaitStartedAt && (Date.now() - duelWaitStartedAt) > 3 * 60 * 1000) {
+    const box = $('duelForfeitBox');
+    if (box) box.style.display = 'block';
+  }
+}
+
+function forceRevealDuelResult() {
+  stopDuelPolling();
+  if (!currentDuel) { showModeSelectScreen(); return; }
+  sb.from('duels').select('*').eq('id', currentDuel.id).single().then(({ data }) => {
+    if (data) showDuelResult(data);
+    else showModeSelectScreen();
+  });
+}
+
+function showDuelResult(duelRow) {
+  showOnlyScreen('duelResultScreen');
+
+  const myScore = currentDuel.isHost ? duelRow.host_score : duelRow.guest_score;
+  const oppScore = currentDuel.isHost ? duelRow.guest_score : duelRow.host_score;
+  const myName = (currentDuel.isHost ? duelRow.host_nickname : duelRow.guest_nickname) || 'Sen';
+  const oppName = (currentDuel.isHost ? duelRow.guest_nickname : duelRow.host_nickname) || 'Rakip';
+  const oppFinished = currentDuel.isHost ? duelRow.guest_finished : duelRow.host_finished;
+
+  $('duelResultMeName').textContent = myName;
+  $('duelResultOppName').textContent = oppFinished ? oppName : (oppName + ' (bitirmedi)');
+  $('duelResultMeScore').textContent = myScore;
+  $('duelResultOppScore').textContent = oppScore;
+
+  const meCard = $('duelResultMe');
+  const oppCard = $('duelResultOpp');
+  meCard.classList.remove('duel-winner');
+  oppCard.classList.remove('duel-winner');
+
+  const title = $('duelResultTitle');
+  if (myScore > oppScore) {
+    title.textContent = '🏆 Kazandın!';
+    meCard.classList.add('duel-winner');
+  } else if (myScore < oppScore) {
+    title.textContent = '😔 Kaybettin';
+    oppCard.classList.add('duel-winner');
+  } else {
+    title.textContent = '🤝 Berabere!';
+  }
+
+  currentDuel = null;
 }
 
 // ==================== SHARE ====================
@@ -1879,7 +2472,7 @@ function buildShareText() {
   const timeStr = formatTime(mainRemaining);
   
   // Tam metin
-  const modeLabel = gameMode === 'practice' ? 'HarfVer (Pratik Modu)' : 'HarfVer';
+  const modeLabel = gameMode === 'practice' ? 'HarfVer (Tek Kişilik)' : 'HarfVer';
   shareText = `🎯 ${modeLabel} ${dateStr}\n\n` +
     `📊 ${score} puan • ⏱️ ${timeStr}\n` +
     `✅ ${stats.correct}/${totalQuestions}  •  🔤 ${stats.letters} harf alındı\n\n` +
