@@ -1484,6 +1484,7 @@ let selectedMode = 'daily'; // mod seçim ekranında seçilen mod
 let currentDuel = null; // { id, code, isHost, puzzleQuestions }
 let duelPollTimer = null;
 let duelWaitStartedAt = null;
+let duelCountdownEntered = false; // countdown/oyun geçişinin sadece 1 kez tetiklenmesini garanti eder
 
 // Timers
 const TOTAL_TIME = 120;
@@ -2177,6 +2178,7 @@ async function joinDuelLobby() {
 
 // ---- Lobi ekranı: kod paylaşımı + rakip bekleme ----
 function enterDuelLobby() {
+  duelCountdownEntered = false;
   showOnlyScreen('duelLobbyScreen');
   $('duelCodeDisplay').textContent = currentDuel.code;
   $('duelHostControls').style.display = currentDuel.isHost ? 'block' : 'none';
@@ -2202,6 +2204,7 @@ async function pollDuelLobby() {
   }
 
   if (data.status === 'countdown' && data.countdown_start_at) {
+    if (duelCountdownEntered) return; // başka bir çağrı zaten geçişi başlattı
     currentDuel.puzzleQuestions = data.puzzle_questions;
     stopDuelPolling();
     enterDuelCountdown(data.countdown_start_at);
@@ -2293,6 +2296,10 @@ async function startDuelCountdown() {
 
 // ---- Geri sayım: sunucu saatine göre senkronize (3 - geçen süre) ----
 function enterDuelCountdown(countdownStartAtIso) {
+  if (duelCountdownEntered) return; // zaten geçiş başlatıldı (host'un kendi çağrısı + polling çakışması gibi)
+  duelCountdownEntered = true;
+  stopDuelPolling(); // her ihtimale karşı, hangi yoldan gelirse gelsin polling artık gereksiz
+
   showOnlyScreen('duelCountdownScreen');
 
   const startMs = new Date(countdownStartAtIso).getTime();
@@ -2673,6 +2680,7 @@ function updateMainTimerUI() {
 }
 
 function startMainTimer() {
+  clearInterval(mainInterval); // olası önceki (zombi) interval'ı temizle - çift interval'ı önler
   mainPaused = false;
   updateMainTimerUI();
   mainInterval = setInterval(() => {
@@ -2740,6 +2748,7 @@ const TIMER_RADIUS = 68;
 const TIMER_CIRCUMFERENCE = 2 * Math.PI * TIMER_RADIUS; // ~427
 
 function startAnsTimer() {
+  clearInterval(ansInterval); // olası önceki (zombi) interval'ı temizle - çift interval'ı önler
   ansActive = true;
   ansRemaining = ANS_TIME;
   tickCounter = 0;
